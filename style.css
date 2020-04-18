@@ -1,0 +1,18 @@
+canvas {
+	border: 2px solid black;
+}
+
+#canvasContainer {
+	text-align: center;
+	margin:30px;
+}
+
+#buttons {
+	text-align: center;
+	margin: 20px;
+}
+
+#rangeContainer {
+	text-align:center;
+}
+
