@@ -6,13 +6,15 @@ var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 var numDataPoints = document.getElementById('slider').value;
 var datawidth = (canvas.width - points.length)/ numDataPoints;
+var ssdone;
+var isdone;
 
 //fill data on load
 points = getDataPoints(numDataPoints);
 draw(points);
 
-//for generator function
-var bs;
+//for generator next functions
+var sort;
 
 //draw new canvas every time slider is updated
 document.getElementById('slider').oninput = function() {
@@ -32,29 +34,24 @@ function getDataPoints(n){
 }
 
 
-
 function* bubblesort(arr=[]){
 	do{
 		swapped = false;
 		let x = 0;
 		for (let i = 0; i < arr.length - x; i++){
 			if (arr[i]>arr[i+1]){
+				swapped=  true;
+				draw(arr, i, i+1);
+				yield;
 				swap(arr, i, i+1);
-				swapped = true;
-				draw(arr, i+1);
-				yield swapped; // pause here
+				draw(arr, i, i+1);
+				yield; // pause here
 			}
 		} 
 		x++;
 	}while (swapped == true);
 	draw(points);
-}
-
-
-
-function newData(){
-	points = getDataPoints(numDataPoints);
-	draw(points);
+	enableButtons();
 }
 
 //helper function for bubblesort
@@ -66,12 +63,57 @@ function swap(arr=[], a, b){
 }
 
 
-function draw(array=[], j){
+function* selectionSort(arr=[]){
+	for (let i = 0; i<arr.length; i++){
+		let minIndx=i;
+		for (let j = i+1; j < arr.length; j++){
+			if (arr[minIndx] > arr[j]){
+				draw(arr, i, j);
+				yield;
+				swap(arr, j, i);
+				draw(arr, i, j);
+				yield;
+			}
+		}
+	}
+	ssdone = true;
+	draw(points);
+	enableButtons();
+}
+
+
+function* insertionSort(arr=[]){
+	for (let i = 1; i < arr.length; i++){
+		key=arr[i];
+		j = i-1;
+		while (j >=0 && key < arr[j]){
+			draw(points, i, j);
+			yield;
+			arr[j+1] = arr[j];
+			j--;
+			draw(points, i, j);
+			yield;
+		}
+		arr[j+1]=key;
+	}
+	isdone = true;
+	draw(points);
+	enableButtons();
+}
+
+
+function newData(){
+	points = getDataPoints(numDataPoints);
+	draw(points);
+}
+
+
+function draw(array=[], j, k){
 	c.clearRect(0,0,canvas.width, canvas.height);
 	var m = 0;
 	datawidth = (canvas.width - points.length)/ numDataPoints;
 	for (let i = 0; i < array.length; i++){
-		if (i==j){
+		if (i==j || i==k){
 			c.fillStyle = 'red'
 		}
 		else{
@@ -80,21 +122,66 @@ function draw(array=[], j){
 		c.fillRect(m, canvas.height - array[i], datawidth, array[i]);
 		m=m+datawidth+1;
 	}
-	return canvas;
 }
 
 
+function disableButtons(){
+	let buttons = document.querySelectorAll("button");
+	for (let i = 0; i < buttons.length; i++){
+		buttons[i].disabled = true;
+	}
+	let slider = document.querySelector("input");
+	slider.disabled = true;
+}
+
+function enableButtons(){
+	let buttons = document.querySelectorAll("button");
+	for (let i = 0; i < buttons.length; i++){
+		buttons[i].disabled = false;
+	}
+	let slider = document.querySelector("input");
+	slider.disabled = false;
+}
+
 function bsAnimate(){
-	console.log('here');
 	if (swapped == true){
 		requestAnimationFrame(bsAnimate);
 	}
-	bs.next();
+	sort.next();
+}
+
+function bsStart(){
+	disableButtons();
+	swapped = true;
+	sort = bubblesort(points);
+	bsAnimate();
+}
+
+function ssAnimate(){
+	if (ssdone == false){
+		requestAnimationFrame(ssAnimate);
+	}
+	sort.next();
+}
+
+function ssStart(){
+	disableButtons();
+	ssdone=false;
+	sort=selectionSort(points);
+	ssAnimate();
 }
 
 
-function bsStart(){
-	swapped = true;
-	bs = bubblesort(points);
-	bsAnimate();
+function isAnimate(){
+	if (isdone == false){
+		requestAnimationFrame(isAnimate);
+	}
+	sort.next();
+}
+
+function isStart(){
+	disableButtons();
+	isdone = false;
+	sort = insertionSort(points);
+	isAnimate();
 }
