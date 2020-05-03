@@ -15,9 +15,10 @@
 
 <!-- buttons -->
 <div id="buttons">
-  <button type="button" class="btn btn-outline-dark" onClick="isStart();">Insertion Sort</button>
-  <button type="button" class="btn btn-outline-dark" onClick="ssStart();">Selection Sort</button>
-	<button type="button" class="btn btn-outline-dark" onClick="bsStart();">Bubble Sort</button>
+	<button type="button" class="btn btn-outline-dark" onClick="startSort(mergeSort);">Merge Sort</button>
+  <button type="button" class="btn btn-outline-dark" onClick="startSort(insertionSort);">Insertion Sort</button>
+  <button type="button" class="btn btn-outline-dark" onClick="startSort(selectionSort);">Selection Sort</button>
+	<button type="button" class="btn btn-outline-dark" onClick="startSort(bubbleSort);">Bubble Sort</button>
 	<button type="button" class="btn btn-warning" onClick='newData();'>New Data</button>
 </div>
 
@@ -25,7 +26,7 @@
 
 <!-- range slider -->
 <div id="rangeContainer">
-	<input type="range" min="4" max="100" value="48" id="slider">
+	<input type="range" min="4" max="100" value="50" id="slider">
 </div>
 
 <!-- canvas -->
