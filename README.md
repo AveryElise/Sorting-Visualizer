@@ -1,4 +1,4 @@
 # Sorting-Visualizer
-This project visualizes different sorting algorithms, such as Bubble Sort.
+This project visualizes multiple sorting algorithms, such as Merge Sort and Bubble Sort.
 
-[View in Browser.](https://averyelise.github.io/Sorting-Visualizer/)
+[View in Browser](https://averyelise.github.io/Sorting-Visualizer/)
