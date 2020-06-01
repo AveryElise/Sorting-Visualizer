@@ -3,7 +3,7 @@ This project generates an array of random values and visualizes multiple sorting
 
 ### Technologies
 This project was created with:
-*JavaScript
-*Bootstrap 4
+* JavaScript
+* Bootstrap 4
 
 [View in Browser](https://averyelise.github.io/Sorting-Visualizer/)
