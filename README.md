@@ -2,7 +2,6 @@
 This project generates an array of random values and visualizes multiple sorting algorithms, including Merge Sort and Bubble Sort.
 
 ### Technologies
-This project was created with:
 * JavaScript
 * Bootstrap 4
 
